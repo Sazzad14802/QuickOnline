@@ -18,6 +18,33 @@
         <div class="min-h-screen bg-gray-100">
             @include('layouts.navigation')
 
+             {{-- Toast --}}
+            @if(session('success'))
+                <div class="toast-container position-fixed bottom-0 end-0 p-3">
+
+                    <div id="successToast"
+                        class="toast text-bg-success"
+                        role="alert"
+                        data-bs-delay="3000">
+
+                        <div class="toast-body">
+                            {{ session('success') }}
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <script>
+                    document.addEventListener('DOMContentLoaded', function () {
+                        const toast = new bootstrap.Toast(
+                            document.getElementById('successToast')
+                        );
+                        toast.show();
+                    });
+                </script>
+            @endif
+        
             <!-- Page Heading -->
             @isset($header)
                 <header class="bg-white shadow">
