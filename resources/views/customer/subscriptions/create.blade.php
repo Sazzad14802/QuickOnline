@@ -1,13 +1,11 @@
 <x-app-layout>
 <x-slot name="header">
     <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-        Packages
+        Request for new subscription
     </h2>
 </x-slot>
 
 <div class="container">
-
-    <a href="{{ route('admin.packages.create') }}" class="btn btn-primary mt-2"> Add New Package </a>
 
     <br><br>
 
@@ -28,12 +26,11 @@
                 <td>{{ $package->connection_type }}</td>
                 <td>{{ $package->ip_type }}</td>
                 <td>{{ $package->price }}</td>
-                <td><a href="{{ route('admin.packages.edit', $package->package_id) }}" class="btn btn-success">Edit</a> 
-                    |
-                    <form action="{{ route('admin.packages.destroy', $package->package_id) }}" method="POST" style="display: inline;">
+                <td>
+                    <form action="{{ route('customer.subscriptions.store_new_request') }}" method="POST">
                         @csrf
-                        @method('DELETE')
-                        <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this package?')">Delete</button>
+                        <input type="hidden" name="package_id" value="{{ $package->package_id }}">
+                        <button type="submit" class="btn btn-success"> Subscribe </button>
                     </form>
                 </td>
             </tr>

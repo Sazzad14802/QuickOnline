@@ -25,7 +25,7 @@
                     <div id="successToast"
                         class="toast text-bg-success"
                         role="alert"
-                        data-bs-delay="3000">
+                        data-bs-delay="2000">
 
                         <div class="toast-body">
                             {{ session('success') }}
@@ -42,6 +42,53 @@
                         );
                         toast.show();
                     });
+                </script>
+            @endif
+            @if(session('error'))
+                <div class="toast-container position-fixed bottom-0 end-0 p-3">
+
+                    <div id="errorToast"
+                        class="toast text-bg-danger"
+                        role="alert"
+                        data-bs-delay="3000"
+                        data-bs-autohide="true">
+
+                        <div class="toast-body">
+                            {{ session('error') }}
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <script>
+                    document.addEventListener('DOMContentLoaded', function () {
+                        const toast = new bootstrap.Toast(document.getElementById('errorToast'));
+                        toast.show();
+                    });
+                </script>   
+            @endif
+            @if(session('warning'))
+                <div class="toast-container position-fixed bottom-0 end-0 p-3">
+                    <div id="warningToast"
+                        class="toast text-bg-warning"
+                        role="alert"
+                        data-bs-delay="3000"
+                        data-bs-autohide="true">
+
+                        <div class="toast-body">
+                            {{ session('warning') }}
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <script>
+                document.addEventListener('DOMContentLoaded', function () {
+                    const toast = new bootstrap.Toast(document.getElementById('warningToast'));
+                    toast.show();
+                });
                 </script>
             @endif
         
