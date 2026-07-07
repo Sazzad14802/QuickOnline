@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\PackageController;
 use App\Http\Controllers\Admin\RequestController;
 use App\Http\Controllers\SubscriptionController;
+use App\Http\Controllers\Admin\SubscriptionController as AdminSubscriptionController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -29,6 +30,8 @@ Route::middleware('auth','admin')->group(function(){
     Route::get('admin/requests',[RequestController::class, 'index'])->name('admin.requests.index');
     Route::post('admin/requests/{request_id}/approve', [RequestController::class, 'approve'])->name('admin.requests.approve');
     Route::post('admin/requests/{request_id}/reject', [RequestController::class, 'reject'])->name('admin.requests.reject');
+    Route::get('admin/subscriptions', [AdminSubscriptionController::class, 'index'])->name('admin.subscriptions.index');
+    Route::delete('admin/subscriptions/{subscription_id}', [AdminSubscriptionController::class, 'remove'])->name('admin.subscriptions.remove');
 });
 
 Route::middleware('auth')->group(function(){
