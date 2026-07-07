@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\PackageController;
+use App\Http\Controllers\Admin\RequestController;
 use App\Http\Controllers\SubscriptionController;
 
 Route::get('/', function () {
@@ -25,6 +26,9 @@ Route::middleware('auth','admin')->group(function(){
     Route::get('admin/packages/{id}/edit', [PackageController::class, 'edit'])->name('admin.packages.edit');
     Route::put('admin/packages/{id}', [PackageController::class, 'update'])->name('admin.packages.update');
     Route::delete('admin/packages/{id}', [PackageController::class, 'destroy'])->name('admin.packages.destroy');
+    Route::get('admin/requests',[RequestController::class, 'index'])->name('admin.requests.index');
+    Route::post('admin/requests/{request_id}/approve', [RequestController::class, 'approve'])->name('admin.requests.approve');
+    Route::post('admin/requests/{request_id}/reject', [RequestController::class, 'reject'])->name('admin.requests.reject');
 });
 
 Route::middleware('auth')->group(function(){

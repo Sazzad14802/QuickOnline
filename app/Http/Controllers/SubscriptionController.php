@@ -20,7 +20,7 @@ class SubscriptionController extends Controller
 
     public function store_new_request(Request $request){
         $package_id = $request->input('package_id');
-        $pending = DB::selectOne("SELECT * FROM requests WHERE user_id = ? AND new_package_id = ? AND request_type = 'new' AND status = 'pending'", [Auth::id(), $package_id]);
+        $pending = DB::selectOne("SELECT * FROM requests WHERE user_id = ? AND new_package_id = ? AND request_type = 'new'", [Auth::id(), $package_id]);
         if ($pending) {
             return redirect()->route('customer.subscriptions.index')->with('error', 'Request for this package is already pending');
         }
@@ -38,9 +38,8 @@ class SubscriptionController extends Controller
     public function store_change_request(Request $request){
         $new_package_id = $request->input('new_package_id');
         $subscription_id = $request->input('subscription_id');
-        $current_package_id = $request->input('current_package_id');
 
-        $pending = DB::selectOne("SELECT * FROM requests WHERE subscription_id = ? AND status = 'pending'", [$subscription_id]);
+        $pending = DB::selectOne("SELECT * FROM requests WHERE subscription_id = ?", [$subscription_id]);
         if ($pending) {
             DB::update("UPDATE requests SET new_package_id = ?, request_type = 'change' WHERE request_id = ?", [$new_package_id, $pending->request_id]);
             return redirect()->route('customer.subscriptions.index')->with('warning', 'Request overwritten');
@@ -50,7 +49,7 @@ class SubscriptionController extends Controller
     }
 
     public function destroy($subscription_id){
-        $pending = DB::selectOne("SELECT * FROM requests WHERE subscription_id = ? AND status = 'pending'", [$subscription_id]);
+        $pending = DB::selectOne("SELECT * FROM requests WHERE subscription_id = ?", [$subscription_id]);
         if ($pending) {
             DB::update("UPDATE requests SET request_type = 'unsubscribe',new_package_id = NULL WHERE request_id = ?", [$pending->request_id]);
             return redirect()->route('customer.subscriptions.index')->with('warning', 'Request overwritten');
