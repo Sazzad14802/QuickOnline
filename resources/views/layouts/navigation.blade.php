@@ -23,6 +23,9 @@
                        <x-nav-link :href="route('admin.requests.index')" :active="request()->routeIs('admin.requests.index')">
                            Requests
                        </x-nav-link>
+                       <x-nav-link :href="route('admin.history.index')" :active="request()->routeIs('admin.history.index')">
+                           History
+                       </x-nav-link>
                     
                     @else
                         <x-nav-link :href="route('customer.dashboard')" :active="request()->routeIs('customer.dashboard')">
@@ -90,6 +93,9 @@
                </x-responsive-nav-link>
                <x-responsive-nav-link :href="route('admin.packages.index')" :active="request()->routeIs('admin.packages.index')">
                    Packages
+               </x-responsive-nav-link>
+               <x-responsive-nav-link :href="route('admin.history.index')" :active="request()->routeIs('admin.history.index')">
+                   History
                </x-responsive-nav-link>
             
             @else

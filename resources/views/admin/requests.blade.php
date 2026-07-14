@@ -22,9 +22,9 @@
         @foreach ($requests as $request)
             <tr>
                 <td>{{ $request->email }}</td>
-                <td>{{ $request->subscription_id }}</td>
-                <td>{{ $request->current_package_name }}</td>
-                <td>{{ $request->new_package_name }}</td>
+                <td>{{ $request->subscription_id ?? 'N/A' }}</td>
+                <td>{{ $request->current_package_name ?? 'N/A' }}</td>
+                <td>{{ $request->new_package_name ?? 'N/A' }}</td>
                 <td>{{ $request->request_type }}</td>   
                 <td>
                     <form action="{{ route('admin.requests.approve', $request->request_id) }}" method="POST" style="display: inline;">

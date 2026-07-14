@@ -16,10 +16,12 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         DB::statement("DELETE FROM packages");
-        DB::statement("DELETE FROM users");
         DB::statement("DELETE FROM subscriptions");
+        DB::statement("DELETE FROM users");
         DB::insert("INSERT INTO users(name, email, password, role, remember_token) VALUES('Admin','admin@quick.online',?,'admin', null)", [Hash::make('123')]);
         DB::insert("INSERT INTO users(name, email, password, role, remember_token) VALUES('Alif','alif@gmail.com',?,'customer', null)", [Hash::make('123')]);
+        DB::insert("INSERT INTO users(name, email, password, role, remember_token) VALUES('Siyam','siyam@gmail.com',?,'customer', null)", [Hash::make('123')]);
+        DB::insert("INSERT INTO users(name, email, password, role, remember_token) VALUES('Saad','saad@gmail.com',?,'customer', null)", [Hash::make('123')]);
         $packages = [
             ['Starter 20', 20, 10, 'fiber', 'shared', 800],
             ['Home 50', 50, 25, 'fiber', 'shared', 1200],
