@@ -8,11 +8,26 @@ use Illuminate\Support\Facades\DB;
 
 class SubscriptionController extends Controller
 {
-    public function index(){
-        $subscriptions = DB::select("SELECT s.subscription_id, u.name, u.email, p.package_name
+    public function index(Request $request){
+        $query = "SELECT s.subscription_id, u.name, u.email, p.package_name
             FROM subscriptions s
             JOIN users u ON s.user_id = u.id
-            JOIN packages p ON s.package_id = p.package_id");
+            JOIN packages p ON s.package_id = p.package_id
+            WHERE 1=1";
+            
+        $bindings = [];
+
+        if ($request->filled('email')) {
+            $query .= " AND u.email LIKE ?";
+            $bindings[] = '%' . $request->input('email') . '%';
+        }
+
+        if ($request->filled('package')) {
+            $query .= " AND p.package_name LIKE ?";
+            $bindings[] = '%' . $request->input('package') . '%';
+        }
+
+        $subscriptions = DB::select($query, $bindings);
         return view('admin.subscriptions', ['subscriptions' => $subscriptions]);
     }
     public function remove($subscription_id){

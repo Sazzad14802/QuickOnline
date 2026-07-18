@@ -9,6 +9,30 @@
 
     <br><br>
 
+    <form method="GET" action="{{ route('admin.requests.index') }}" class="mb-4">
+        <div class="row g-2">
+            <div class="col-md-4">
+                <input type="text" name="email" class="form-control" placeholder="Search by Email" value="{{ request('email') }}">
+            </div>
+            <div class="col-md-4">
+                <select name="type" class="form-select">
+                    <option value="">All Request Types</option>
+                    <option value="new" {{ request('type') == 'new' ? 'selected' : '' }}>New</option>
+                    <option value="change" {{ request('type') == 'change' ? 'selected' : '' }}>Change</option>
+                    <option value="unsubscribe" {{ request('type') == 'unsubscribe' ? 'selected' : '' }}>Unsubscribe</option>
+                </select>
+            </div>
+            <div class="col-md-4 d-flex gap-2">
+                <button type="submit" class="btn btn-primary w-100">Filter</button>
+                <a href="{{ route('admin.requests.index') }}" class="btn btn-secondary w-100">Clear</a>
+            </div>
+        </div>
+    </form>
+
+    <div class="mb-3 text-muted">
+        <strong>Showing {{ count($requests) }} {{ Str::plural('row', count($requests)) }}</strong>
+    </div>
+
     <table class="table table-bordered">
         <tr>
             <th>User email</th>

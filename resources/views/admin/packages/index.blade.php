@@ -11,6 +11,10 @@
 
     <br><br>
 
+    <div class="mb-3 text-muted">
+        <strong>Showing {{ count($packages) }} {{ Str::plural('row', count($packages)) }}</strong>
+    </div>
+
     <table class="table table-bordered">
         <tr>
             <th>Name</th>

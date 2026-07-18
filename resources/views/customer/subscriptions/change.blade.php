@@ -21,6 +21,38 @@
         </div>
     </div>
 
+    <form method="GET" action="{{ route('customer.subscriptions.change', $subscription->subscription_id) }}" class="mb-4">
+        <div class="row g-3">
+            <div class="col-md-2">
+                <input type="number" name="min_download" class="form-control" placeholder="Min Download" value="{{ request('min_download') }}">
+            </div>
+            <div class="col-md-2">
+                <input type="number" name="min_upload" class="form-control" placeholder="Min Upload" value="{{ request('min_upload') }}">
+            </div>
+            <div class="col-md-2">
+                <select name="ip_type" class="form-select">
+                    <option value="">Any IP Type</option>
+                    <option value="shared" {{ request('ip_type') == 'shared' ? 'selected' : '' }}>Shared</option>
+                    <option value="dedicated" {{ request('ip_type') == 'dedicated' ? 'selected' : '' }}>Dedicated</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <input type="number" name="min_price" class="form-control" placeholder="Min Price" value="{{ request('min_price') }}">
+            </div>
+            <div class="col-md-2">
+                <input type="number" name="max_price" class="form-control" placeholder="Max Price" value="{{ request('max_price') }}">
+            </div>
+            <div class="col-md-2 d-flex gap-2">
+                <button type="submit" class="btn btn-primary w-100">Filter</button>
+                <a href="{{ route('customer.subscriptions.change', $subscription->subscription_id) }}" class="btn btn-secondary w-100">Clear</a>
+            </div>
+        </div>
+    </form>
+
+    <div class="mb-3 text-muted">
+        <strong>Showing {{ count($packages) }} {{ Str::plural('row', count($packages)) }}</strong>
+    </div>
+
     <table class="table table-bordered">
         <strong>Change into :</strong>
         <tr>

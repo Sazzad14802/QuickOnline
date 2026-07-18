@@ -13,8 +13,34 @@ class SubscriptionController extends Controller
         return view('customer.subscriptions.index', ['subscriptions' => $subscriptions]);
     }
 
-    public function create(){
-        $packages = DB::select("SELECT * FROM packages");
+    public function create(Request $request){
+        $query = "SELECT * FROM packages WHERE 1=1";
+        $bindings = [];
+
+        if ($request->filled('min_price')) {
+            $query .= " AND price >= ?";
+            $bindings[] = $request->input('min_price');
+        }
+        if ($request->filled('max_price')) {
+            $query .= " AND price <= ?";
+            $bindings[] = $request->input('max_price');
+        }
+        if ($request->filled('min_download')) {
+            $query .= " AND download_speed >= ?";
+            $bindings[] = $request->input('min_download');
+        }
+        if ($request->filled('min_upload')) {
+            $query .= " AND upload_speed >= ?";
+            $bindings[] = $request->input('min_upload');
+        }
+        if ($request->filled('ip_type')) {
+            $query .= " AND ip_type = ?";
+            $bindings[] = $request->input('ip_type');
+        }
+
+        $query .= " ORDER BY price ASC";
+
+        $packages = DB::select($query, $bindings);
         return view('customer.subscriptions.create', ['packages' => $packages]);
     }
 
@@ -31,7 +57,34 @@ class SubscriptionController extends Controller
     public function change(Request $request,$subscription_id){
         
         $subscription = DB::selectOne("SELECT * FROM subscriptions NATURAL JOIN packages WHERE subscription_id = ?", [$subscription_id]);
-        $packages = DB::select("SELECT * FROM packages WHERE package_id <> ? ORDER BY price", [$subscription->package_id]);
+        
+        $query = "SELECT * FROM packages WHERE package_id <> ?";
+        $bindings = [$subscription->package_id];
+
+        if ($request->filled('min_download')) {
+            $query .= " AND download_speed >= ?";
+            $bindings[] = $request->input('min_download');
+        }
+        if ($request->filled('min_upload')) {
+            $query .= " AND upload_speed >= ?";
+            $bindings[] = $request->input('min_upload');
+        }
+        if ($request->filled('ip_type')) {
+            $query .= " AND ip_type = ?";
+            $bindings[] = $request->input('ip_type');
+        }
+        if ($request->filled('min_price')) {
+            $query .= " AND price >= ?";
+            $bindings[] = $request->input('min_price');
+        }
+        if ($request->filled('max_price')) {
+            $query .= " AND price <= ?";
+            $bindings[] = $request->input('max_price');
+        }
+
+        $query .= " ORDER BY price ASC";
+
+        $packages = DB::select($query, $bindings);
         return view('customer.subscriptions.change', ['subscription' => $subscription,'packages' => $packages]);
     }
     
